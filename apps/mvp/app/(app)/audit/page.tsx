@@ -44,12 +44,12 @@ export default function AuditPage() {
   // Calculate stats
   const stats = useMemo(() => {
     if (!logs) return { total: 0, today: 0, approvals: 0 };
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const todayDate = new Date();
+    todayDate.setHours(0, 0, 0, 0);
     return {
       total: logs.length,
-      today: logs.filter((l) => new Date(l.timestamp) >= today).length,
-      approvals: logs.filter((l) => l.action?.includes("APPROV")).length,
+      today: logs.filter((l) => new Date(l.createdAt) >= todayDate).length,
+      approvals: logs.filter((l) => l.eventType?.includes("APPROV")).length,
     };
   }, [logs]);
 
@@ -58,12 +58,12 @@ export default function AuditPage() {
     if (!logs) return [];
     return logs.filter((log) => {
       const matchesSearch =
-        log.action?.toLowerCase().includes(search.toLowerCase()) ||
-        log.userId?.toLowerCase().includes(search.toLowerCase()) ||
+        log.eventType?.toLowerCase().includes(search.toLowerCase()) ||
+        log.data?.toLowerCase().includes(search.toLowerCase()) ||
         log.id?.toLowerCase().includes(search.toLowerCase());
       const matchesCategory =
         categoryFilter === "all" ||
-        log.action?.toUpperCase().includes(categoryFilter);
+        log.eventType?.toUpperCase().includes(categoryFilter);
       return matchesSearch && matchesCategory;
     });
   }, [logs, search, categoryFilter]);
@@ -72,13 +72,12 @@ export default function AuditPage() {
   const handleExportCSV = () => {
     if (!logs || logs.length === 0) return;
 
-    const headers = ["ID", "Timestamp", "Action", "User ID", "Details"];
+    const headers = ["ID", "Timestamp", "Event Type", "Data"];
     const rows = logs.map((l) => [
       l.id,
-      new Date(l.timestamp).toISOString(),
-      l.action,
-      l.userId || "",
-      JSON.stringify(l.metadata || {}),
+      new Date(l.createdAt).toISOString(),
+      l.eventType,
+      l.data,
     ]);
 
     const csvContent = [

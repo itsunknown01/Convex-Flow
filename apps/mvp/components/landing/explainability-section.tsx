@@ -119,8 +119,8 @@ export function ExplainabilitySection() {
                 <span className="text-purple-400">black box</span>
               </h2>
               <p className="mt-4 text-lg text-slate-400 leading-relaxed">
-                Every AI decision is transparent. Understand the "why" behind
-                every workflow outcome.
+                Every AI decision is transparent. Understand the &quot;why&quot;
+                behind every workflow outcome.
               </p>
 
               {/* Feature list with scroll-linked reveals */}

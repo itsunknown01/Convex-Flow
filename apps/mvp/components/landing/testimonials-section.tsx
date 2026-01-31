@@ -182,7 +182,7 @@ export function TestimonialsSection() {
 
                 {/* Quote - using curly quotes */}
                 <blockquote className="text-xl md:text-2xl text-white font-medium leading-relaxed mb-8">
-                  "{currentTestimonial?.quote}"
+                  &quot;{currentTestimonial?.quote}&quot;
                 </blockquote>
 
                 {/* Author */}

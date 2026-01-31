@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@workspace/ui/components/button";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,7 +17,6 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 
 export function LandingHeader() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollY } = useScroll();
 
@@ -40,8 +39,10 @@ export function LandingHeader() {
   );
 
   useEffect(() => {
+    // No-op - kept just in case scroll listener is needed for other logic
+    // but removed unused isScrolled state update
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      // Logic could go here
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -97,7 +98,7 @@ export function LandingHeader() {
                   <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] bg-slate-900 border-slate-800">
                     <li className="row-span-3">
                       <NavigationMenuLink asChild>
-                        <a
+                        <Link
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-blue-600/20 to-blue-600 no-underline outline-none focus:shadow-md border border-blue-500/20"
                           href="/"
                         >
@@ -110,7 +111,7 @@ export function LandingHeader() {
                               workflows.
                             </p>
                           </div>
-                        </a>
+                        </Link>
                       </NavigationMenuLink>
                     </li>
                     <ListItem href="#" title="Observability">
@@ -245,7 +246,7 @@ const ListItem = ({
   title: string;
   children: React.ReactNode;
   href: string;
-  [key: string]: any;
+  [key: string]: string | number | boolean | React.ReactNode;
 }) => {
   return (
     <li>

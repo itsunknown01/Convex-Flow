@@ -79,8 +79,8 @@ export async function apiRequest<T>(
     }
 
     return response.json();
-  } catch (err: any) {
-    if (err.name === "AbortError") {
+  } catch (err: unknown) {
+    if (err instanceof Error && err.name === "AbortError") {
       throw new Error(`Request timed out after ${timeout}ms`);
     }
     throw err;
