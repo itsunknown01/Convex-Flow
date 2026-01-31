@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: convex_flow
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d convex_flow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: servers/Dockerfile
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/convex_flow?schema=public
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: production_secret_change_me
+      # OpenAI Key needs to be supplied in .env or via injection
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      FRONTEND_URL: http://localhost:3000
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/mvp/Dockerfile
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      AUTH_SECRET: production_auth_secret_change_me
+      # If using NextAuth/Auth.js
+      NEXTAUTH_URL: http://localhost:3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
