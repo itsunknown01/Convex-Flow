@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
 import { Check, Sparkles } from "lucide-react";
 import { Button } from "@workspace/ui/components/button";
 import Link from "next/link";
@@ -62,8 +67,14 @@ export function PricingSection() {
   const [annual, setAnnual] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
-  const containerVariants = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+  const containerVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 1 },
+        visible: {
+          opacity: 1,
+          transition: { staggerChildren: 0 },
+        },
+      }
     : {
         hidden: { opacity: 0 },
         visible: {
@@ -72,14 +83,24 @@ export function PricingSection() {
         },
       };
 
-  const cardVariants = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+  const cardVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 1, y: 0 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0 },
+        },
+      }
     : {
         hidden: { opacity: 0, y: 30 },
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
+          transition: {
+            duration: 0.6,
+            ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+          },
         },
       };
 

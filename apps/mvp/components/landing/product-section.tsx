@@ -105,16 +105,19 @@ export function ProductSection() {
               transition={{ duration: 0.4 }}
               className="relative aspect-video rounded-2xl border border-slate-800 bg-slate-900/50 overflow-hidden shadow-2xl"
             >
-              <Image
-                src={products[activeProduct].image}
-                alt={products[activeProduct].title}
-                fill
-                className="object-cover"
-                priority
-              />
-
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent" />
+              {products[activeProduct] && (
+                <>
+                  <Image
+                    src={products[activeProduct].image}
+                    alt={products[activeProduct].title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 to-transparent" />
+                </>
+              )}
             </motion.div>
           </motion.div>
         </div>

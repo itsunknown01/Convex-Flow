@@ -101,7 +101,7 @@ export function FadeReveal({
   const opacity = useTransform(scrollProgress, [start, end], [0, 1]);
 
   const translateValue = prefersReducedMotion ? 0 : 50;
-  const translateMap: Record<string, { x: number[]; y: number[] }> = {
+  const translateMap = {
     up: { x: [0, 0], y: [translateValue, 0] },
     down: { x: [0, 0], y: [-translateValue, 0] },
     left: { x: [translateValue, 0], y: [0, 0] },
@@ -109,15 +109,17 @@ export function FadeReveal({
     none: { x: [0, 0], y: [0, 0] },
   };
 
-  const x = useTransform(
+  const activeDirection = direction || "up";
+
+  const x = useTransform<number, number>(
     scrollProgress,
     [start, end],
-    translateMap[direction].x,
+    translateMap[activeDirection].x,
   );
-  const y = useTransform(
+  const y = useTransform<number, number>(
     scrollProgress,
     [start, end],
-    translateMap[direction].y,
+    translateMap[activeDirection].y,
   );
 
   return (

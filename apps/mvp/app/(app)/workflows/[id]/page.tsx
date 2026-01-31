@@ -25,7 +25,6 @@ import { useState } from "react";
 export default function WorkflowDetailsPage() {
   const params = useParams();
   const id = params.id as string;
-  const router = useRouter();
 
   const {
     data: workflow,

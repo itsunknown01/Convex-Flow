@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
   Workflow,
   Shield,
@@ -89,14 +89,24 @@ function FeatureCard({
 }) {
   const Icon = feature.icon;
 
-  const itemVariants = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+  const itemVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 1, y: 0 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0 },
+        },
+      }
     : {
         hidden: { opacity: 0, y: 30 },
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] },
+          transition: {
+            duration: 0.6,
+            ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+          },
         },
       };
 
@@ -159,8 +169,14 @@ function FeatureCard({
 export function FeaturesSection() {
   const prefersReducedMotion = useReducedMotion();
 
-  const containerVariants = prefersReducedMotion
-    ? { hidden: { opacity: 1 }, visible: { opacity: 1 } }
+  const containerVariants: Variants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 1 },
+        visible: {
+          opacity: 1,
+          transition: { staggerChildren: 0 },
+        },
+      }
     : {
         hidden: { opacity: 0 },
         visible: {
