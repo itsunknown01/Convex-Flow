@@ -27,6 +27,7 @@ out/
 build
 dist
 context/
+.agent/
 
 # Debug
 npm-debug.log*

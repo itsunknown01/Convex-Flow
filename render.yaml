@@ -1,0 +1,37 @@
+services:
+  # Backend Server
+  - type: web
+    name: convex-flow-backend
+    env: docker
+    dockerContext: .
+    dockerfilePath: servers/Dockerfile
+    plan: free # or starter/standard
+    region: oregon # adjust as needed
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: convex-flow-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: convex-flow-redis
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: OPENAI_API_KEY
+        sync: false # Set manually in Render dashboard
+      - key: FRONTEND_URL
+        value: http://localhost:3000 # Update with your production frontend URL
+
+databases:
+  - name: convex-flow-db
+    plan: free # free plan is fine for development
+    region: oregon
+
+regions:
+  - name: convex-flow-redis
+    type: redis
+    plan: free
+    region: oregon
+    ipAllowList: [] # allow all internal traffic

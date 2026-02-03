@@ -4,65 +4,107 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
-    
+    /* Light mode - subtle slate tones */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-    
+    --card-foreground: 222 47% 11%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-    
-    --primary: 0 0% 0%;
+    --popover-foreground: 222 47% 11%;
+
+    /* Primary: Blue matching landing page */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-    
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 0%;
-    
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
-    
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 0%;
-    
+    --primary-rgb: 59, 130, 246;
+
+    --secondary: 215 28% 95%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 215 28% 95%;
+    --muted-foreground: 215 16% 47%;
+
+    /* Accent: Cyan matching landing page */
+    --accent: 192 91% 49%;
+    --accent-foreground: 222 47% 11%;
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 40%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.5rem;
+    --radius: 0.625rem;
+
+    /* Status colors */
+    --success: 142 76% 36%;
+    --warning: 45 93% 47%;
+    --info: 199 89% 48%;
+
+    /* Sidebar colors - light mode */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
-    
-    --card: 0 0% 0%;
-    --card-foreground: 0 0% 100%;
-    
-    --popover: 0 0% 0%;
-    --popover-foreground: 0 0% 100%;
-    
-    --primary: 0 0% 100%;
-    --primary-foreground: 0 0% 0%;
-    
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 0 0% 100%;
-    
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 65%;
-    
-    --accent: 0 0% 15%;
+    /* Dark mode - slate-950 base matching landing page */
+    --background: 222 47% 4%;
+    --foreground: 210 40% 98%;
+
+    /* Cards: slate-900 with transparency */
+    --card: 222 47% 7%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primary: Blue matching landing hero */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-rgb: 59, 130, 246;
+
+    /* Secondary: slate-800 */
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    /* Muted: slate-800/700 */
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    /* Accent: Purple/cyan blend */
+    --accent: 250 89% 66%;
     --accent-foreground: 0 0% 100%;
-    
+
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 80%;
+    /* Borders: subtle slate */
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
+
+    /* Status colors */
+    --success: 142 69% 58%;
+    --warning: 45 93% 58%;
+    --info: 199 89% 58%;
+
+    /* Sidebar colors - dark mode */
+    --sidebar-background: 222 47% 5%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 17%;
+    --sidebar-ring: 217 91% 60%;
   }
 }
 
@@ -75,19 +117,50 @@ body {
   color: hsl(var(--foreground));
 }
 
+/* Glass morphism effects matching landing page */
 .glass-effect {
-  background-color: rgb(255 255 255 / 0.07);
-  backdrop-filter: blur(2px) saturate(200%);
+  background-color: rgb(255 255 255 / 0.05);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+
+.dark .glass-effect {
+  background-color: rgb(0 0 0 / 0.2);
+  backdrop-filter: blur(12px) saturate(180%);
+  border: 1px solid rgb(255 255 255 / 0.08);
 }
 
 .hover-glass {
-  transition-property: background-color;
+  transition-property: background-color, box-shadow;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
 }
 
 .hover-glass:hover {
-  background-color: rgb(255 255 255 / 0.1);
+  background-color: rgb(255 255 255 / 0.08);
+  box-shadow: 0 0 20px rgb(59 130 246 / 0.1);
+}
+
+/* Gradient text utility matching landing page */
+.gradient-text {
+  background: linear-gradient(
+    to right,
+    hsl(217, 91%, 60%),
+    hsl(250, 89%, 66%),
+    hsl(192, 91%, 49%)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow effects */
+.glow-primary {
+  box-shadow: 0 0 20px rgb(59 130 246 / 0.3);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px rgb(139 92 246 / 0.3);
 }
 
 /* Custom scrollbar styles */
@@ -114,13 +187,13 @@ body {
 }
 
 :root {
-  --scrollbar-thumb: rgb(0 0 0 / 0.2);
-  --scrollbar-thumb-hover: rgb(0 0 0 / 0.3);
+  --scrollbar-thumb: rgb(0 0 0 / 0.15);
+  --scrollbar-thumb-hover: rgb(0 0 0 / 0.25);
 }
 
 .dark {
-  --scrollbar-thumb: rgb(255 255 255 / 0.2);
-  --scrollbar-thumb-hover: rgb(255 255 255 / 0.3);
+  --scrollbar-thumb: rgb(255 255 255 / 0.15);
+  --scrollbar-thumb-hover: rgb(255 255 255 / 0.25);
 }
 
 @layer base {
@@ -130,4 +203,27 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Animated gradient background for cards */
+.animated-gradient-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-gradient-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgb(59 130 246 / 0.08),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.animated-gradient-bg:hover::before {
+  opacity: 1;
 }

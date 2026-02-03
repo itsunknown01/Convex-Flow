@@ -8,6 +8,20 @@ import {
 } from "@/components/features/execution-row";
 import { Button } from "@workspace/ui/components/button";
 import { Card, CardContent } from "@workspace/ui/components/card";
+import { Badge } from "@workspace/ui/components/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@workspace/ui/components/tooltip";
 import {
   RefreshCcw,
   Activity,
@@ -20,8 +34,26 @@ import {
   Filter,
 } from "lucide-react";
 import { Input } from "@workspace/ui/components/input";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Link from "next/link";
+
+// Animation variants
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] },
+  },
+};
 
 // Status filter options
 const statusFilters = [
@@ -32,30 +64,62 @@ const statusFilters = [
   { value: "AWAITING_APPROVAL", label: "Pending", icon: Clock },
 ];
 
-// Mini stat card
+// Enhanced stat card matching landing page colors
 function StatCard({
   label,
   value,
   icon: Icon,
-  color,
+  colorKey,
 }: {
   label: string;
   value: number;
   icon: React.ElementType;
-  color: string;
+  colorKey: "blue" | "emerald" | "red" | "amber";
 }) {
+  const colors = {
+    blue: {
+      bg: "bg-gradient-to-br from-blue-500 to-cyan-500",
+      glow: "0 4px 20px rgba(59, 130, 246, 0.4)",
+      border: "border-blue-500/20 hover:border-blue-500/40",
+    },
+    emerald: {
+      bg: "bg-gradient-to-br from-emerald-500 to-green-500",
+      glow: "0 4px 20px rgba(16, 185, 129, 0.4)",
+      border: "border-emerald-500/20 hover:border-emerald-500/40",
+    },
+    red: {
+      bg: "bg-gradient-to-br from-red-500 to-rose-500",
+      glow: "0 4px 20px rgba(239, 68, 68, 0.4)",
+      border: "border-red-500/20 hover:border-red-500/40",
+    },
+    amber: {
+      bg: "bg-gradient-to-br from-amber-500 to-orange-500",
+      glow: "0 4px 20px rgba(245, 158, 11, 0.4)",
+      border: "border-amber-500/20 hover:border-amber-500/40",
+    },
+  };
+
+  const color = colors[colorKey];
+
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="flex items-center gap-3 p-4">
-        <div className={`p-2 rounded-lg ${color}`}>
-          <Icon className="h-4 w-4 text-white" />
-        </div>
-        <div>
-          <p className="text-2xl font-bold text-foreground">{value}</p>
-          <p className="text-xs text-muted-foreground">{label}</p>
-        </div>
-      </CardContent>
-    </Card>
+    <motion.div variants={itemVariants}>
+      <Card
+        className={`group overflow-hidden border ${color.border} hover:shadow-lg transition-all duration-300`}
+      >
+        <CardContent className="flex items-center gap-4 p-5">
+          <div
+            className={`p-3 rounded-xl ${color.bg} shadow-lg group-hover:scale-105 transition-transform duration-300`}
+            style={{ boxShadow: color.glow }}
+          >
+            <Icon className="h-5 w-5 text-white" aria-hidden="true" />
+          </div>
+          <div>
+            <p className="text-3xl font-bold text-foreground">{value}</p>
+            <p className="text-sm text-muted-foreground">{label}</p>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }
 
@@ -101,7 +165,11 @@ export default function JobsPage() {
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+      >
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
             Jobs
@@ -116,90 +184,106 @@ export default function JobsPage() {
             size="sm"
             onClick={() => refetch()}
             disabled={isLoading || isRefetching}
+            className="border-border/50 hover:border-primary/40"
           >
             <RefreshCcw
               className={`h-4 w-4 mr-2 ${isRefetching ? "animate-spin" : ""}`}
+              aria-hidden="true"
             />
             Refresh
           </Button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Stats Grid */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
         className="grid grid-cols-2 md:grid-cols-4 gap-4"
       >
         <StatCard
           label="Running"
           value={stats.running}
           icon={Play}
-          color="bg-blue-500"
+          colorKey="blue"
         />
         <StatCard
           label="Completed"
           value={stats.completed}
           icon={CheckCircle}
-          color="bg-green-500"
+          colorKey="emerald"
         />
         <StatCard
           label="Failed"
           value={stats.failed}
           icon={XCircle}
-          color="bg-red-500"
+          colorKey="red"
         />
         <StatCard
           label="Pending Approval"
           value={stats.pending}
           icon={Clock}
-          color="bg-amber-500"
+          colorKey="amber"
         />
       </motion.div>
 
       {/* Search and Filter Bar */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search
+            className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
+            aria-hidden="true"
+          />
           <Input
             placeholder="Search executions..."
-            className="pl-10"
+            className="pl-10 border-border/50 focus:border-primary/40"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
-        {/* Status Filter Pills */}
-        <div className="flex items-center gap-1 flex-wrap">
-          <Filter className="h-4 w-4 text-muted-foreground mr-2" />
-          {statusFilters.map((filter) => (
-            <Button
-              key={filter.value}
-              variant={statusFilter === filter.value ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setStatusFilter(filter.value)}
-              className={`text-xs ${
-                statusFilter === filter.value ? "" : "text-muted-foreground"
-              }`}
-            >
-              <filter.icon className="h-3 w-3 mr-1" />
-              {filter.label}
-            </Button>
-          ))}
+        {/* Status Filter Select */}
+        <div className="flex items-center gap-2">
+          <Filter
+            className="h-4 w-4 text-muted-foreground"
+            aria-hidden="true"
+          />
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-[160px] border-border/50">
+              <SelectValue placeholder="Filter by status" />
+            </SelectTrigger>
+            <SelectContent>
+              {statusFilters.map((filter) => (
+                <SelectItem key={filter.value} value={filter.value}>
+                  <span className="flex items-center gap-2">
+                    <filter.icon className="h-3.5 w-3.5" aria-hidden="true" />
+                    {filter.label}
+                  </span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
       {/* Error State */}
       {isError && (
-        <div className="flex flex-col items-center justify-center py-20 bg-destructive/5 rounded-xl border border-destructive/20 text-center px-4">
-          <AlertCircle className="h-10 w-10 text-destructive mb-4" />
-          <h3 className="text-lg font-semibold text-destructive">
+        <div className="flex flex-col items-center justify-center py-20 bg-red-500/5 rounded-xl border border-red-500/20 text-center px-4">
+          <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
+            <AlertCircle className="h-7 w-7 text-red-400" aria-hidden="true" />
+          </div>
+          <h3 className="text-lg font-semibold text-red-400">
             Failed to load jobs
           </h3>
           <p className="text-muted-foreground max-w-xs mt-1">
             Unable to sync with execution service.
           </p>
-          <Button variant="outline" className="mt-6" onClick={() => refetch()}>
+          <Button
+            variant="outline"
+            className="mt-6 border-red-500/30 hover:border-red-500/50"
+            onClick={() => refetch()}
+          >
             Try Again
           </Button>
         </div>
@@ -223,9 +307,12 @@ export default function JobsPage() {
             </motion.div>
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center py-24 text-center border border-dashed rounded-xl">
-            <div className="h-12 w-12 bg-muted rounded-full flex items-center justify-center mb-4">
-              <Activity className="h-6 w-6 text-muted-foreground" />
+          <div className="flex flex-col items-center justify-center py-24 text-center border border-dashed border-border/50 rounded-xl bg-muted/5">
+            <div className="h-14 w-14 bg-muted/50 rounded-full flex items-center justify-center mb-4">
+              <Activity
+                className="h-7 w-7 text-muted-foreground"
+                aria-hidden="true"
+              />
             </div>
             <h3 className="text-lg font-medium text-foreground">
               No executions found

@@ -24,18 +24,20 @@ import {
   Mail,
   Calendar,
   CheckCircle,
+  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-// Workflow templates
+// Workflow templates with gradient colors matching landing page
 const templates = [
   {
     id: "blank",
     name: "Blank Workflow",
     description: "Start from scratch with an empty workflow",
     icon: Workflow,
-    color: "bg-slate-500",
+    gradient: "from-slate-500 to-slate-600",
+    glow: "rgba(100, 116, 139, 0.4)",
     definition: { steps: [] },
   },
   {
@@ -43,7 +45,8 @@ const templates = [
     name: "Approval Flow",
     description: "Multi-step approval process with human review",
     icon: Shield,
-    color: "bg-blue-500",
+    gradient: "from-blue-500 to-cyan-500",
+    glow: "rgba(59, 130, 246, 0.4)",
     definition: {
       steps: [
         { type: "validate", name: "Validate Input" },
@@ -57,7 +60,8 @@ const templates = [
     name: "Automation Pipeline",
     description: "Automated task execution with AI agents",
     icon: Zap,
-    color: "bg-purple-500",
+    gradient: "from-purple-500 to-pink-500",
+    glow: "rgba(139, 92, 246, 0.4)",
     definition: {
       steps: [
         { type: "trigger", name: "Event Trigger" },
@@ -71,7 +75,8 @@ const templates = [
     name: "Notification Workflow",
     description: "Send alerts and notifications based on conditions",
     icon: Mail,
-    color: "bg-green-500",
+    gradient: "from-emerald-500 to-green-500",
+    glow: "rgba(16, 185, 129, 0.4)",
     definition: {
       steps: [
         { type: "condition", name: "Check Condition" },
@@ -85,7 +90,8 @@ const templates = [
     name: "Scheduled Task",
     description: "Time-based workflow execution",
     icon: Calendar,
-    color: "bg-amber-500",
+    gradient: "from-amber-500 to-orange-500",
+    glow: "rgba(245, 158, 11, 0.4)",
     definition: {
       steps: [
         { type: "schedule", name: "Daily Trigger" },
@@ -124,14 +130,18 @@ export default function NewWorkflowPage() {
   return (
     <div className="space-y-6 animate-in fade-in duration-500 max-w-4xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" asChild>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex items-center gap-4"
+      >
+        <Button variant="ghost" size="sm" asChild className="hover:bg-muted/50">
           <Link href="/workflows">
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
             Back
           </Link>
         </Button>
-      </div>
+      </motion.div>
 
       {/* Progress Steps */}
       <div className="flex items-center justify-center gap-4">
@@ -140,31 +150,33 @@ export default function NewWorkflowPage() {
             <motion.div
               animate={{
                 scale: step === s ? 1.1 : 1,
-                backgroundColor:
-                  step >= s ? "hsl(var(--primary))" : "hsl(var(--muted))",
               }}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium"
+              className={`w-9 h-9 rounded-xl flex items-center justify-center text-sm font-medium transition-all duration-300 ${
+                step >= s
+                  ? "bg-gradient-to-br from-primary to-accent text-white shadow-lg"
+                  : "bg-muted text-muted-foreground"
+              }`}
+              style={{
+                boxShadow:
+                  step >= s ? "0 4px 15px rgba(59, 130, 246, 0.3)" : "none",
+              }}
             >
               {step > s ? (
-                <CheckCircle className="h-4 w-4 text-primary-foreground" />
+                <CheckCircle className="h-4 w-4" aria-hidden="true" />
               ) : (
-                <span
-                  className={
-                    step >= s
-                      ? "text-primary-foreground"
-                      : "text-muted-foreground"
-                  }
-                >
-                  {s}
-                </span>
+                <span>{s}</span>
               )}
             </motion.div>
             <span
-              className={`text-sm ${step >= s ? "text-foreground" : "text-muted-foreground"}`}
+              className={`text-sm font-medium ${step >= s ? "text-foreground" : "text-muted-foreground"}`}
             >
               {s === 1 ? "Choose Template" : "Configure"}
             </span>
-            {s < 2 && <div className="w-12 h-0.5 bg-muted rounded" />}
+            {s < 2 && (
+              <div
+                className={`w-12 h-0.5 rounded-full transition-colors ${step > 1 ? "bg-primary/50" : "bg-muted"}`}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -176,12 +188,22 @@ export default function NewWorkflowPage() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 20 }}
         >
-          <Card>
+          <Card className="border-border/50">
             <CardHeader>
-              <CardTitle>Choose a Template</CardTitle>
-              <CardDescription>
-                Start with a pre-built workflow or create from scratch.
-              </CardDescription>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-primary/20 to-accent/10">
+                  <Sparkles
+                    className="h-5 w-5 text-primary"
+                    aria-hidden="true"
+                  />
+                </div>
+                <div>
+                  <CardTitle>Choose a Template</CardTitle>
+                  <CardDescription>
+                    Start with a pre-built workflow or create from scratch.
+                  </CardDescription>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -191,19 +213,28 @@ export default function NewWorkflowPage() {
                   return (
                     <motion.button
                       key={template.id}
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ scale: 1.02, y: -2 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setSelectedTemplate(template)}
-                      className={`p-4 rounded-xl border-2 text-left transition-all ${
+                      className={`p-5 rounded-xl border-2 text-left transition-all duration-300 ${
                         isSelected
-                          ? "border-primary bg-primary/5"
-                          : "border-border hover:border-primary/50"
+                          ? "border-primary bg-primary/5 shadow-lg"
+                          : "border-border/50 hover:border-primary/40 hover:bg-muted/30"
                       }`}
+                      style={{
+                        boxShadow: isSelected
+                          ? `0 8px 25px ${template.glow}`
+                          : "none",
+                      }}
                     >
                       <div
-                        className={`w-10 h-10 rounded-lg ${template.color} flex items-center justify-center mb-3`}
+                        className={`w-11 h-11 rounded-xl bg-gradient-to-br ${template.gradient} flex items-center justify-center mb-3 shadow-lg`}
+                        style={{ boxShadow: `0 4px 15px ${template.glow}` }}
                       >
-                        <Icon className="h-5 w-5 text-white" />
+                        <Icon
+                          className="h-5 w-5 text-white"
+                          aria-hidden="true"
+                        />
                       </div>
                       <h3 className="font-semibold text-foreground">
                         {template.name}
@@ -212,8 +243,11 @@ export default function NewWorkflowPage() {
                         {template.description}
                       </p>
                       {isSelected && (
-                        <div className="mt-3 flex items-center gap-1 text-xs text-primary font-medium">
-                          <CheckCircle className="h-3 w-3" />
+                        <div className="mt-3 flex items-center gap-1.5 text-xs text-primary font-medium">
+                          <CheckCircle
+                            className="h-3.5 w-3.5"
+                            aria-hidden="true"
+                          />
                           Selected
                         </div>
                       )}
@@ -222,9 +256,12 @@ export default function NewWorkflowPage() {
                 })}
               </div>
               <div className="flex justify-end mt-6">
-                <Button onClick={() => setStep(2)}>
+                <Button onClick={() => setStep(2)} className="gap-2">
                   Continue
-                  <ArrowLeft className="h-4 w-4 ml-2 rotate-180" />
+                  <ArrowLeft
+                    className="h-4 w-4 rotate-180"
+                    aria-hidden="true"
+                  />
                 </Button>
               </div>
             </CardContent>
@@ -239,14 +276,20 @@ export default function NewWorkflowPage() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
         >
-          <Card>
+          <Card className="border-border/50">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div
-                  className={`h-10 w-10 rounded-lg ${selectedTemplate?.color || "bg-primary"} flex items-center justify-center`}
+                  className={`h-11 w-11 rounded-xl bg-gradient-to-br ${selectedTemplate?.gradient || "from-primary to-accent"} flex items-center justify-center shadow-lg`}
+                  style={{
+                    boxShadow: `0 4px 15px ${selectedTemplate?.glow || "rgba(59, 130, 246, 0.3)"}`,
+                  }}
                 >
                   {selectedTemplate && (
-                    <selectedTemplate.icon className="h-5 w-5 text-white" />
+                    <selectedTemplate.icon
+                      className="h-5 w-5 text-white"
+                      aria-hidden="true"
+                    />
                   )}
                 </div>
                 <div>
@@ -268,6 +311,7 @@ export default function NewWorkflowPage() {
                     onChange={(e) => setTitle(e.target.value)}
                     disabled={createWorkflow.isPending}
                     required
+                    className="border-border/50 focus:border-primary/40"
                   />
                 </div>
 
@@ -280,6 +324,7 @@ export default function NewWorkflowPage() {
                     onChange={(e) => setDescription(e.target.value)}
                     disabled={createWorkflow.isPending}
                     rows={3}
+                    className="border-border/50 focus:border-primary/40"
                   />
                 </div>
 
@@ -288,18 +333,24 @@ export default function NewWorkflowPage() {
                   selectedTemplate.definition.steps.length > 0 && (
                     <div className="space-y-2">
                       <Label>Workflow Steps</Label>
-                      <div className="flex items-center gap-2 flex-wrap p-3 bg-muted/30 rounded-lg">
-                        {selectedTemplate.definition.steps.map((step, i) => (
-                          <div key={i} className="flex items-center gap-2">
-                            <span className="px-3 py-1 text-xs bg-background border rounded-full">
-                              {step.name}
-                            </span>
-                            {i <
-                              selectedTemplate.definition.steps.length - 1 && (
-                              <ArrowLeft className="h-3 w-3 text-muted-foreground rotate-180" />
-                            )}
-                          </div>
-                        ))}
+                      <div className="flex items-center gap-2 flex-wrap p-4 bg-muted/20 rounded-xl border border-border/50">
+                        {selectedTemplate.definition.steps.map(
+                          (stepItem, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                              <span className="px-3 py-1.5 text-xs bg-background border border-border/50 rounded-full font-medium">
+                                {stepItem.name}
+                              </span>
+                              {i <
+                                selectedTemplate.definition.steps.length -
+                                  1 && (
+                                <ArrowLeft
+                                  className="h-3 w-3 text-muted-foreground rotate-180"
+                                  aria-hidden="true"
+                                />
+                              )}
+                            </div>
+                          ),
+                        )}
                       </div>
                       <p className="text-xs text-muted-foreground">
                         You can customize these steps after creation.
@@ -308,7 +359,7 @@ export default function NewWorkflowPage() {
                   )}
 
                 {createWorkflow.isError && (
-                  <div className="rounded bg-destructive/10 p-3 text-sm text-destructive">
+                  <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-4 text-sm text-red-400">
                     Failed to create workflow. Please try again.
                   </div>
                 )}
@@ -319,8 +370,9 @@ export default function NewWorkflowPage() {
                     variant="outline"
                     onClick={() => setStep(1)}
                     disabled={createWorkflow.isPending}
+                    className="border-border/50"
                   >
-                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    <ArrowLeft className="h-4 w-4 mr-2" aria-hidden="true" />
                     Back
                   </Button>
                   <div className="flex gap-3">
@@ -335,15 +387,19 @@ export default function NewWorkflowPage() {
                     <Button
                       type="submit"
                       disabled={createWorkflow.isPending || !title.trim()}
+                      className="gap-2"
                     >
                       {createWorkflow.isPending ? (
                         <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          <Loader2
+                            className="h-4 w-4 animate-spin"
+                            aria-hidden="true"
+                          />
                           Creating...
                         </>
                       ) : (
                         <>
-                          <Save className="h-4 w-4 mr-2" />
+                          <Save className="h-4 w-4" aria-hidden="true" />
                           Create Workflow
                         </>
                       )}

@@ -12,22 +12,82 @@ import {
   AlertTriangle,
   Clock,
   Shield,
+  Sparkles,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 // Animation variants
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: 0.08 },
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
 };
+
+// Enhanced stat card matching landing page colors
+function StatCard({
+  label,
+  value,
+  icon: Icon,
+  colorKey,
+}: {
+  label: string;
+  value: number;
+  icon: React.ElementType;
+  colorKey: "amber" | "red" | "blue";
+}) {
+  const colors = {
+    amber: {
+      bg: "bg-gradient-to-br from-amber-500 to-orange-500",
+      glow: "0 4px 20px rgba(245, 158, 11, 0.4)",
+      border: "border-amber-500/20 hover:border-amber-500/40",
+    },
+    red: {
+      bg: "bg-gradient-to-br from-red-500 to-rose-500",
+      glow: "0 4px 20px rgba(239, 68, 68, 0.4)",
+      border: "border-red-500/20 hover:border-red-500/40",
+    },
+    blue: {
+      bg: "bg-gradient-to-br from-blue-500 to-cyan-500",
+      glow: "0 4px 20px rgba(59, 130, 246, 0.4)",
+      border: "border-blue-500/20 hover:border-blue-500/40",
+    },
+  };
+
+  const color = colors[colorKey];
+
+  return (
+    <Card
+      className={`group overflow-hidden border ${color.border} hover:shadow-lg transition-all duration-300`}
+    >
+      <CardContent className="flex items-center gap-4 p-5">
+        <div
+          className={`p-3 rounded-xl ${color.bg} shadow-lg group-hover:scale-105 transition-transform duration-300`}
+          style={{ boxShadow: color.glow }}
+        >
+          <Icon className="h-5 w-5 text-white" aria-hidden="true" />
+        </div>
+        <div>
+          <p className="text-3xl font-bold text-foreground">{value}</p>
+          <p className="text-sm text-muted-foreground">{label}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function ApprovalsPage() {
   const {
@@ -56,7 +116,11 @@ export default function ApprovalsPage() {
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+      >
         <div>
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-bold tracking-tight text-foreground">
@@ -66,8 +130,9 @@ export default function ApprovalsPage() {
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="px-2.5 py-1 text-xs font-semibold bg-amber-500/20 text-amber-600 rounded-full"
+                className="px-3 py-1.5 text-xs font-semibold bg-amber-500/15 text-amber-400 rounded-full border border-amber-500/20"
               >
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 mr-2 animate-pulse" />
                 {stats.total} pending
               </motion.span>
             )}
@@ -82,65 +147,42 @@ export default function ApprovalsPage() {
             size="sm"
             onClick={() => refetch()}
             disabled={isLoading || isRefetching}
+            className="border-border/50 hover:border-primary/40"
           >
             <RefreshCcw
               className={`h-4 w-4 mr-2 ${isRefetching ? "animate-spin" : ""}`}
+              aria-hidden="true"
             />
             Refresh
           </Button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Stats Cards */}
       {!isLoading && stats.total > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="grid grid-cols-3 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
         >
-          <Card>
-            <CardContent className="flex items-center gap-3 p-4">
-              <div className="p-2 rounded-lg bg-amber-500">
-                <Clock className="h-4 w-4 text-white" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">
-                  {stats.total}
-                </p>
-                <p className="text-xs text-muted-foreground">Total Pending</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className={stats.urgent > 0 ? "border-red-500/50" : ""}>
-            <CardContent className="flex items-center gap-3 p-4">
-              <div
-                className={`p-2 rounded-lg ${stats.urgent > 0 ? "bg-red-500" : "bg-muted"}`}
-              >
-                <AlertTriangle
-                  className={`h-4 w-4 ${stats.urgent > 0 ? "text-white" : "text-muted-foreground"}`}
-                />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">
-                  {stats.urgent}
-                </p>
-                <p className="text-xs text-muted-foreground">Urgent (24h+)</p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="flex items-center gap-3 p-4">
-              <div className="p-2 rounded-lg bg-blue-500">
-                <Shield className="h-4 w-4 text-white" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">
-                  {stats.recent}
-                </p>
-                <p className="text-xs text-muted-foreground">New (1h)</p>
-              </div>
-            </CardContent>
-          </Card>
+          <StatCard
+            label="Total Pending"
+            value={stats.total}
+            icon={Clock}
+            colorKey="amber"
+          />
+          <StatCard
+            label="Urgent (24h+)"
+            value={stats.urgent}
+            icon={AlertTriangle}
+            colorKey="red"
+          />
+          <StatCard
+            label="New (1h)"
+            value={stats.recent}
+            icon={Shield}
+            colorKey="blue"
+          />
         </motion.div>
       )}
 
@@ -149,12 +191,16 @@ export default function ApprovalsPage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="flex items-start gap-3 rounded-xl bg-blue-500/5 p-4 border border-blue-500/10"
+        className="flex items-start gap-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-cyan-500/5 p-5 border border-blue-500/20"
       >
-        <Info className="h-5 w-5 mt-0.5 flex-shrink-0 text-blue-500" />
-        <div className="text-sm text-blue-700 dark:text-blue-400">
-          <p className="font-medium">Human-in-the-Loop Governance</p>
-          <p className="mt-1 opacity-80">
+        <div className="p-2 rounded-lg bg-blue-500/20">
+          <Info className="h-5 w-5 text-blue-400" aria-hidden="true" />
+        </div>
+        <div className="text-sm">
+          <p className="font-semibold text-blue-300">
+            Human-in-the-Loop Governance
+          </p>
+          <p className="mt-1 text-blue-300/70">
             Items are paused based on Policy Configurations or AI Uncertainty.
             Your decision will be logged to the immutable ledger.
           </p>
@@ -163,11 +209,21 @@ export default function ApprovalsPage() {
 
       {/* Error State */}
       {isError && (
-        <div className="rounded-xl border border-destructive/20 bg-destructive/5 p-8 text-center">
-          <p className="text-destructive font-medium">
+        <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-8 text-center">
+          <div className="w-14 h-14 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-4">
+            <AlertTriangle
+              className="h-7 w-7 text-red-400"
+              aria-hidden="true"
+            />
+          </div>
+          <p className="text-red-400 font-medium">
             Failed to load the approval queue.
           </p>
-          <Button variant="outline" className="mt-4" onClick={() => refetch()}>
+          <Button
+            variant="outline"
+            className="mt-4 border-red-500/30 hover:border-red-500/50"
+            onClick={() => refetch()}
+          >
             Try Again
           </Button>
         </div>
@@ -185,7 +241,7 @@ export default function ApprovalsPage() {
             <motion.div
               key={i}
               variants={itemVariants}
-              className="h-[280px] rounded-xl border animate-pulse bg-muted/20"
+              className="h-[280px] rounded-xl border border-border/50 animate-pulse bg-muted/10"
             />
           ))
         ) : approvals && approvals.length > 0 ? (
@@ -197,10 +253,13 @@ export default function ApprovalsPage() {
         ) : (
           <motion.div
             variants={itemVariants}
-            className="col-span-full flex flex-col items-center justify-center py-24 text-center border border-dashed rounded-xl bg-muted/10"
+            className="col-span-full flex flex-col items-center justify-center py-24 text-center border border-dashed border-border/50 rounded-xl bg-gradient-to-b from-emerald-500/5 to-transparent"
           >
-            <div className="h-16 w-16 bg-green-500/10 rounded-full flex items-center justify-center mb-6 border border-green-500/20">
-              <ShieldCheck className="h-8 w-8 text-green-500" />
+            <div className="h-20 w-20 rounded-full flex items-center justify-center mb-6 bg-gradient-to-br from-emerald-500/20 to-green-500/10 border border-emerald-500/30">
+              <ShieldCheck
+                className="h-10 w-10 text-emerald-400"
+                aria-hidden="true"
+              />
             </div>
             <h3 className="text-xl font-semibold text-foreground">
               Queue is empty
