@@ -28,6 +28,7 @@ build
 dist
 context/
 .agent/
+generated-client/
 
 # Debug
 npm-debug.log*

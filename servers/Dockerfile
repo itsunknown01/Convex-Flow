@@ -29,6 +29,7 @@ RUN pnpm install --prod --frozen-lockfile
 # Copy built files
 COPY --from=builder /app/servers/dist ./servers/dist
 COPY --from=builder /app/packages/database/dist ./packages/database/dist
+COPY --from=builder /app/packages/database/src/generated-client ./packages/database/dist/generated-client
 COPY --from=builder /app/packages/database/prisma ./packages/database/prisma
 
 WORKDIR /app/servers
