@@ -22,7 +22,7 @@ services:
       - key: OPENAI_API_KEY
         sync: false
       - key: FRONTEND_URL
-        value: http://localhost:3000
+        value: https://convex-flow-mvp.vercel.app
 
   # Redis Instance
   - type: redis
