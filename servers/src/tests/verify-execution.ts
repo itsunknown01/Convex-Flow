@@ -82,7 +82,7 @@ async function verifyExecution() {
   }
 
   // Verify HTTP Job
-  const httpJob = jobs.find((j) => j.stepId === "step-1");
+  const httpJob = jobs.find((j: any) => j.stepId === "step-1");
   if (
     httpJob?.status === "COMPLETED" &&
     (httpJob.output as any)?.data?.id === 1
@@ -94,7 +94,7 @@ async function verifyExecution() {
   }
 
   // Verify Transform Job
-  const transformJob = jobs.find((j) => j.stepId === "step-2");
+  const transformJob = jobs.find((j: any) => j.stepId === "step-2");
   if (
     transformJob?.status === "COMPLETED" &&
     transformJob.output === "Hello World"

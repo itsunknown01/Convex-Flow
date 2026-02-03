@@ -39,7 +39,7 @@ export class WorkflowService {
         }),
     );
 
-    if (!workflowDef || workflowDef.tenantId !== tenantId) {
+    if (!(workflowDef as any) || (workflowDef as any).tenantId !== tenantId) {
       throw new Error("Workflow definition not found");
     }
 
