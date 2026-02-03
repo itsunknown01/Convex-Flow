@@ -9,6 +9,7 @@ WORKDIR /app
 COPY . .
 RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @workspace/database db:generate
+RUN pnpm --filter @workspace/database build
 RUN pnpm --filter servers build
 
 # Create an isolated production environment
@@ -27,6 +28,7 @@ RUN pnpm install --prod --frozen-lockfile
 
 # Copy built files
 COPY --from=builder /app/servers/dist ./servers/dist
+COPY --from=builder /app/packages/database/dist ./packages/database/dist
 COPY --from=builder /app/packages/database/prisma ./packages/database/prisma
 
 WORKDIR /app/servers
