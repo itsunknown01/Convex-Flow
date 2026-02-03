@@ -1,0 +1,163 @@
+﻿
+> mvp@0.0.1 build C:\Users\Aryam\Desktop\Projects\saas\Convex Flow\apps\mvp
+> next build
+
+   Γû▓ Next.js 15.1.11
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+
+./app/(app)/approvals/page.tsx
+15:3  Warning: 'Sparkles' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/(app)/dashboard/page.tsx
+208:17  Warning: 'auditLogs' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/(app)/jobs/page.tsx
+11:10  Warning: 'Badge' is defined but never used.  @typescript-eslint/no-unused-vars
+20:3  Warning: 'Tooltip' is defined but never used.  @typescript-eslint/no-unused-vars
+21:3  Warning: 'TooltipContent' is defined but never used.  @typescript-eslint/no-unused-vars
+22:3  Warning: 'TooltipProvider' is defined but never used.  @typescript-eslint/no-unused-vars
+23:3  Warning: 'TooltipTrigger' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/(app)/workflows/page.tsx
+11:10  Warning: 'Card' is defined but never used.  @typescript-eslint/no-unused-vars
+11:16  Warning: 'CardContent' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/(app)/workflows/[id]/page.tsx
+6:10  Warning: 'Badge' is defined but never used.  @typescript-eslint/no-unused-vars
+7:10  Warning: 'Separator' is defined but never used.  @typescript-eslint/no-unused-vars
+9:3  Warning: 'Tooltip' is defined but never used.  @typescript-eslint/no-unused-vars
+10:3  Warning: 'TooltipContent' is defined but never used.  @typescript-eslint/no-unused-vars
+11:3  Warning: 'TooltipProvider' is defined but never used.  @typescript-eslint/no-unused-vars
+12:3  Warning: 'TooltipTrigger' is defined but never used.  @typescript-eslint/no-unused-vars
+29:3  Warning: 'CheckCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+30:3  Warning: 'XCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/common/app-sidebar.tsx
+14:3  Warning: 'Sparkles' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/features/job-status-badge.tsx
+20:31  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+20:42  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+./components/landing/cinematic-cta.tsx
+48:9  Warning: 'buttonGlow' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/landing/solution-unfold.tsx
+221:39  Warning: 'i' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+node.exe : Failed 
+to compile.
+At C:\Users\Aryam\A
+ppData\Roaming\npm\
+pnpm.ps1:24 char:5
++     & "node$exe" 
+ "$basedir/node_mod
+ules/pnpm/bin/pnpm.
+cjs" $args
++     ~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo 
+             : No  
+  tSpecified: (F   
+ ailed to compi    
+le.:String) []    
+, RemoteExcept    
+ion
+    + FullyQualifi 
+   edErrorId : Na  
+  tiveCommandErr   
+ or
+ 
+
+./app/(app)/approva
+ls/page.tsx:73:6
+Type error: 'Card' 
+cannot be used as 
+a JSX component.
+  Its type 'Forward
+RefExoticComponent<
+HTMLAttributes<HTML
+DivElement> & RefAt
+tributes<HTMLDivEle
+ment>>' is not a 
+valid JSX element 
+type.
+    Type 'ForwardRe
+fExoticComponent<HT
+MLAttributes<HTMLDi
+vElement> & RefAttr
+ibutes<HTMLDivEleme
+nt>>' is not 
+assignable to type 
+'(props: any) => 
+ReactNode | Promise
+<ReactNode>'.
+      Type 
+'ReactNode' is not 
+assignable to type 
+'ReactNode | Promis
+e<ReactNode>'.
+        Type 
+'ReactElement<any, 
+string | JSXElement
+Constructor<any>>' 
+is not assignable 
+to type 'ReactNode 
+| Promise<ReactNode
+>'.
+          Property 
+'children' is 
+missing in type 
+'ReactElement<any, 
+string | JSXElement
+Constructor<any>>' 
+but required in 
+type 'ReactPortal'.
+
+[0m [90m 71 
+|[39m[0m
+[0m [90m 72 
+|[39m   
+[36mreturn[39m 
+([0m
+[0m[31m[1m>[22m
+[39m[90m 73 
+|[39m     [33m<[
+39m[33mCard[39m[
+0m
+[0m [90m    
+|[39m      [31m[
+1m^[22m[39m[0m
+[0m [90m 74 
+|[39m       classN
+ame[33m=[39m{[32
+m`group 
+overflow-hidden 
+border 
+${color.border} 
+hover:shadow-lg 
+transition-all dura
+tion-300`[39m}[0m
+[0m [90m 75 
+|[39m     
+[33m>[39m[0m
+[0m [90m 76 
+|[39m       [33m<
+[39m[33mCardConte
+nt[39m className[
+33m=[39m[32m"flex
+ items-center 
+gap-4 p-5"[39m[33
+m>[39m[0m
+Next.js build 
+worker exited with 
+code: 1 and 
+signal: null
+ΓÇëERR_PNPM_RECURSIVE_RUN_FIRST_FAILΓÇë mvp@0.0.1 build: `next build`
+Exit status 1

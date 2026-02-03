@@ -5,27 +5,13 @@ import {
   useScroll,
   useTransform,
   useReducedMotion,
+  Variants,
 } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import Image from "next/image";
 import { Button } from "@workspace/ui/components/button";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
-
-// Text animation variants for cinematic word-by-word reveal
-const wordVariants = {
-  hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.6,
-      delay: 0.8 + i * 0.12,
-      ease: [0.25, 0.1, 0.25, 1],
-    },
-  }),
-};
 
 /**
  * CinematicHero - Full viewport hero with GTA VI-style cinematic parallax.
@@ -34,6 +20,24 @@ const wordVariants = {
 export function CinematicHero() {
   const ref = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
+
+  // Text animation variants for cinematic word-by-word reveal
+  const wordVariants: Variants = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+      visible: (i: number) => ({
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        transition: {
+          duration: 0.6,
+          delay: 0.8 + i * 0.12,
+          ease: [0.25, 0.1, 0.25, 1],
+        },
+      }),
+    }),
+    [],
+  );
 
   const { scrollYProgress } = useScroll({
     target: ref,
