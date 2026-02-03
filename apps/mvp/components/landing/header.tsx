@@ -251,7 +251,7 @@ const ListItem = ({
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <Link
           href={href}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-slate-800 hover:text-accent-foreground focus:bg-slate-800 focus:text-accent-foreground",
@@ -265,7 +265,7 @@ const ListItem = ({
           <p className="line-clamp-2 text-sm leading-snug text-slate-400">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   );

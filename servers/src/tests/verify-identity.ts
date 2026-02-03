@@ -32,7 +32,7 @@ async function verifyIdentity() {
   console.log("\n[Test] Auth Middleware");
   const reqA = {
     headers: { authorization: `Bearer ${tokenA}` },
-  } as Partial<AuthenticatedRequest>;
+  } as any;
 
   const resMock = {
     status: (code: number) => ({

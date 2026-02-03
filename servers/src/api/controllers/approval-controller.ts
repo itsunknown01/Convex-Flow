@@ -29,7 +29,7 @@ export const decideApproval = async (
 
   try {
     const result = await ApprovalService.getInstance().decide(
-      id!,
+      id as string,
       status as "APPROVED" | "REJECTED",
     );
     res.json(result);

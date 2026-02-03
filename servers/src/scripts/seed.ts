@@ -59,9 +59,11 @@ async function main() {
 
   for (const m of memberships) {
     await db.membership.upsert({
-      where: { userId_tenantId: { userId: m.user.id, tenantId: m.tenant.id } },
+      where: {
+        userId_tenantId: { userId: m.user!.id, tenantId: m.tenant!.id },
+      },
       update: { role: m.role },
-      create: { userId: m.user.id, tenantId: m.tenant.id, role: m.role },
+      create: { userId: m.user!.id, tenantId: m.tenant!.id, role: m.role },
     });
   }
   console.log(`✅ Memberships seeded: ${memberships.length}`);

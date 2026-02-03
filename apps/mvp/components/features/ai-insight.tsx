@@ -46,7 +46,7 @@ export function AiInsight({
             </p>
             {explanation && (
               <p className="text-xs text-muted-foreground leading-relaxed italic">
-                "{explanation}"
+                &quot;{explanation}&quot;
               </p>
             )}
           </div>

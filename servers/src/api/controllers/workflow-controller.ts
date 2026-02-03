@@ -56,7 +56,7 @@ export const getExecution = async (
   try {
     const execution = await WorkflowService.getInstance().getExecution(
       tenantId,
-      id!,
+      id as string,
     );
     res.json(execution);
   } catch (error: any) {
@@ -77,7 +77,7 @@ export const updateExecutionStatus = async (
     // but a truly SOLID approach would move validation to a domain service.
     const result = await WorkflowService.getInstance().updateExecutionStatus(
       tenantId,
-      id!,
+      id as string,
       status,
     );
     res.json(result);
@@ -108,7 +108,7 @@ export const getDefinition = async (
   try {
     const definition = await WorkflowService.getInstance().getDefinition(
       tenantId,
-      id!,
+      id as string,
     );
     res.json(definition);
   } catch (error: any) {

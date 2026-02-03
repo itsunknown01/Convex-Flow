@@ -21,7 +21,7 @@ app.use(
 app.use(express.json());
 
 // Public Routes
-app.get("/health", async (req, res) => {
+app.get("/health", async (req: express.Request, res: express.Response) => {
   try {
     // Check DB
     await db.$queryRaw`SELECT 1`;

@@ -9,7 +9,7 @@ import {
   listExecutions,
 } from "../controllers/workflow-controller.js";
 
-const router = Router();
+const router: Router = Router();
 
 // Definitions
 router.get("/definitions", listDefinitions);

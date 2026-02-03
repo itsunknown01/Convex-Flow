@@ -46,7 +46,7 @@ async function verifyOrchestrator() {
     tenantId: tenantA.id,
     body: {},
     params: {},
-  } as unknown as AuthenticatedRequest;
+  } as any;
 
   // 2. Test: Create Workflow Definition
   console.log("\n[Test] Create Workflow Definition");
