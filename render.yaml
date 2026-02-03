@@ -5,8 +5,8 @@ services:
     env: docker
     dockerContext: .
     dockerfilePath: servers/Dockerfile
-    plan: free # or starter/standard
-    region: oregon # adjust as needed
+    plan: free
+    region: oregon
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -20,18 +20,18 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: OPENAI_API_KEY
-        sync: false # Set manually in Render dashboard
+        sync: false
       - key: FRONTEND_URL
-        value: http://localhost:3000 # Update with your production frontend URL
+        value: http://localhost:3000
+
+  # Redis Instance
+  - type: redis
+    name: convex-flow-redis
+    plan: free
+    region: oregon
+    ipAllowList: [] # Allow all internal traffic
 
 databases:
   - name: convex-flow-db
-    plan: free # free plan is fine for development
-    region: oregon
-
-regions:
-  - name: convex-flow-redis
-    type: redis
     plan: free
     region: oregon
-    ipAllowList: [] # allow all internal traffic
