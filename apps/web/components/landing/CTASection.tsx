@@ -2,10 +2,13 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { useGsapContext } from "@/components/common/gsap-provider";
-import Link from "next/link";
+import { useGsapContext } from "@/components/gsap-provider";
 
-export function CinematicCTA() {
+/* ═══════════════════════════════════════════════════════════════
+   CTA SECTION — Final call to action with cinematic reveal
+   ═══════════════════════════════════════════════════════════════ */
+
+export default function CTASection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const { isReady, prefersReducedMotion } = useGsapContext();
@@ -22,7 +25,11 @@ export function CinematicCTA() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cardRef.current,
-        { opacity: 0, y: 40, scale: 0.97 },
+        {
+          opacity: 0,
+          y: 40,
+          scale: 0.97,
+        },
         {
           opacity: 1,
           y: 0,
@@ -48,6 +55,7 @@ export function CinematicCTA() {
       className="landing-section relative"
       aria-labelledby="cta-heading"
     >
+      {/* Background glow */}
       <div
         className="pointer-events-none absolute inset-0 flex items-center justify-center"
         aria-hidden="true"
@@ -61,6 +69,7 @@ export function CinematicCTA() {
           className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] p-10 text-center sm:p-14 md:p-20"
           style={{ opacity: prefersReducedMotion ? 1 : 0 }}
         >
+          {/* Gradient border glow */}
           <div
             className="pointer-events-none absolute inset-0 rounded-2xl opacity-40"
             style={{
@@ -69,6 +78,8 @@ export function CinematicCTA() {
             }}
             aria-hidden="true"
           />
+
+          {/* Inner grid pattern */}
           <div
             className="pointer-events-none absolute inset-0 landing-grid-bg opacity-50"
             aria-hidden="true"
@@ -92,8 +103,8 @@ export function CinematicCTA() {
             </p>
 
             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-              <Link
-                href="/login?view=signup"
+              <a
+                href="#"
                 className="cta-glow inline-flex items-center gap-2 rounded-lg bg-[var(--landing-accent-blue)] px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:brightness-110 cursor-pointer"
               >
                 Start Free Trial
@@ -112,7 +123,7 @@ export function CinematicCTA() {
                     strokeLinejoin="round"
                   />
                 </svg>
-              </Link>
+              </a>
               <a
                 href="#"
                 className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-8 py-3.5 text-sm font-medium text-white transition-all duration-300 hover:bg-white/[0.06] cursor-pointer"
@@ -120,6 +131,7 @@ export function CinematicCTA() {
                 Book a Demo
               </a>
             </div>
+
             <p className="mt-6 text-xs text-[var(--landing-text-muted)]">
               No credit card required · 14-day free trial · SOC 2 compliant
             </p>

@@ -15,7 +15,13 @@ interface ScrollRevealProps {
   as?: "div" | "section" | "article";
 }
 
-export function ScrollReveal({
+/**
+ * Declarative scroll-reveal wrapper.
+ * Wraps children in a div that animates into view on scroll.
+ *
+ * For staggered children, add `data-reveal-child` to each element.
+ */
+export default function ScrollReveal({
   children,
   direction = "up",
   delay = 0,
@@ -39,30 +45,5 @@ export function ScrollReveal({
     <Tag ref={ref} className={className} style={{ opacity: 0 }}>
       {children}
     </Tag>
-  );
-}
-
-export function SectionTransition({
-  variant = "glow",
-  className = "",
-}: {
-  variant?: "glow" | "fade" | "space";
-  className?: string;
-}) {
-  if (variant === "space") {
-    return <div className={`h-16 md:h-24 ${className}`} aria-hidden="true" />;
-  }
-  if (variant === "fade") {
-    return (
-      <div
-        className={`mx-auto h-px w-full max-w-5xl bg-gradient-to-r from-transparent via-white/[0.06] to-transparent ${className}`}
-        aria-hidden="true"
-      />
-    );
-  }
-  return (
-    <div className={`relative py-4 ${className}`} aria-hidden="true">
-      <div className="glow-line mx-auto max-w-3xl" />
-    </div>
   );
 }

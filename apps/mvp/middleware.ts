@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // Routes that require authentication
-const protectedRoutes = ["/workflows", "/jobs", "/audit", "/approvals"];
+const protectedRoutes = ["/workflows", "/jobs", "/audit", "/approvals", "/settings", "/dashboard"];
 
 export function middleware(request: NextRequest) {
   const session = request.cookies.get("session");

@@ -2,33 +2,43 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { useGsapContext } from "@/components/common/gsap-provider";
-import { ScrollReveal } from "./scroll-animations";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGsapContext } from "@/components/gsap-provider";
+import ScrollReveal from "./ScrollReveal";
+
+/* ═══════════════════════════════════════════════════════════════
+   EXPLAINABILITY — AI reasoning layers & policy gates
+   Stacked transparent cards showing decision path
+   ═══════════════════════════════════════════════════════════════ */
 
 const REASONING_LAYERS = [
   {
     label: "Input Signal",
     description: "Raw data and context ingested by the agent",
     color: "#3b82f6",
+    opacity: 0.9,
   },
   {
     label: "Policy Check",
     description: "Constraints and guardrails evaluated",
     color: "#8b5cf6",
+    opacity: 0.75,
   },
   {
     label: "Reasoning",
     description: "Chain-of-thought decision logic traced",
     color: "#06b6d4",
+    opacity: 0.6,
   },
   {
     label: "Action Output",
     description: "Final decision with confidence score",
     color: "#22c55e",
+    opacity: 0.45,
   },
 ] as const;
 
-export function ExplainabilitySection() {
+export default function ExplainabilitySection() {
   const stackRef = useRef<HTMLDivElement>(null);
   const { isReady, prefersReducedMotion } = useGsapContext();
 
@@ -37,12 +47,20 @@ export function ExplainabilitySection() {
 
     const ctx = gsap.context(() => {
       const cards = stackRef.current!.querySelectorAll(".reasoning-card");
+
+      // Stagger-reveal each reasoning layer on scroll
       gsap.fromTo(
         cards,
-        { opacity: 0, y: 30, scale: 0.95 },
+        {
+          opacity: 0,
+          y: 30,
+          rotateX: -5,
+          scale: 0.95,
+        },
         {
           opacity: 1,
           y: 0,
+          rotateX: 0,
           scale: 1,
           stagger: 0.15,
           duration: 0.7,
@@ -67,7 +85,7 @@ export function ExplainabilitySection() {
     >
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          {/* Stacked Reasoning Layers */}
+          {/* Stacked Reasoning Layers Visual */}
           <div
             ref={stackRef}
             className="relative flex flex-col gap-3"
@@ -83,6 +101,7 @@ export function ExplainabilitySection() {
                 }}
               >
                 <div className="flex items-center gap-3">
+                  {/* Step indicator */}
                   <div
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-xs font-bold"
                     style={{
@@ -101,15 +120,29 @@ export function ExplainabilitySection() {
                       {layer.description}
                     </p>
                   </div>
+                  {/* Status indicator */}
                   <div className="ml-auto">
                     <div
                       className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: layer.color }}
+                      style={{
+                        backgroundColor: layer.color,
+                        opacity: layer.opacity,
+                      }}
                     />
                   </div>
                 </div>
+                {/* Connection line to next layer */}
+                {i < REASONING_LAYERS.length - 1 && (
+                  <div
+                    className="ml-4 mt-2 h-3 w-px"
+                    style={{ backgroundColor: `${layer.color}20` }}
+                    aria-hidden="true"
+                  />
+                )}
               </div>
             ))}
+
+            {/* Flow arrow at bottom */}
             <div
               className="flex items-center justify-center pt-2"
               aria-hidden="true"
@@ -147,8 +180,11 @@ export function ExplainabilitySection() {
               <p className="landing-subheadline mt-4 max-w-lg">
                 No black boxes. Convex-Flow surfaces every step of the decision
                 process — from input signals through policy checks to final
-                output.
+                output. Auditors and stakeholders can verify exactly how
+                decisions are made.
               </p>
+
+              {/* Feature bullets */}
               <ul className="mt-8 space-y-3">
                 {[
                   "Complete chain-of-thought traces for every decision",

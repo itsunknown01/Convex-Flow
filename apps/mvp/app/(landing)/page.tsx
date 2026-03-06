@@ -5,7 +5,7 @@ import {
   ExplainabilitySection,
   PolicyHITLSection,
   CinematicCTA,
-  FooterSection,
+  SectionTransition,
 } from "@/components/landing";
 
 /**
@@ -17,27 +17,38 @@ import {
  */
 export default function LandingPage() {
   return (
-    <main className="bg-slate-950 text-white">
-      {/* 1. Hero - Full viewport cinematic opening */}
-      <CinematicHero />
+    <main
+      className="landing-noise"
+      style={{
+        backgroundColor: "var(--landing-bg)",
+        color: "var(--landing-text-primary)",
+      }}
+    >
+      <div className="landing-grid-bg">
+        {/* 1. Hero - Full viewport cinematic opening */}
+        <CinematicHero />
 
-      {/* 2. Problem - Chaos visualization with depth */}
-      <ProblemNarrative />
+        {/* 2. Problem - Chaos visualization */}
+        <SectionTransition variant="glow" />
+        <ProblemNarrative />
 
-      {/* 3. Solution - Capabilities unfold on scroll */}
-      <SolutionUnfold />
+        {/* 3. Solution - Capabilities unfold */}
+        <SectionTransition variant="fade" />
+        <SolutionUnfold />
 
-      {/* 4. Explainability - Glass layers with progressive reveals */}
-      <ExplainabilitySection />
+        {/* 4. Explainability - Glass layers */}
+        <SectionTransition variant="glow" />
+        <ExplainabilitySection />
 
-      {/* 5. Policy & HITL - Human-AI collaboration depth */}
-      <PolicyHITLSection />
+        {/* 5. Policy & HITL + Trust */}
+        <SectionTransition variant="fade" />
+        <PolicyHITLSection />
 
-      {/* 6. CTA - Convergence and conversion */}
-      <CinematicCTA />
+        <SectionTransition variant="space" />
 
-      {/* Footer */}
-      <FooterSection />
+        {/* 6. CTA - Final conversion */}
+        <CinematicCTA />
+      </div>
     </main>
   );
 }

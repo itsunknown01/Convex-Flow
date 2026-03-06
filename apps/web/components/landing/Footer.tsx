@@ -18,14 +18,15 @@ const FOOTER_LINKS = {
   ],
 } as const;
 
-export function FooterSection() {
+export default function Footer() {
   return (
     <footer
-      className="relative border-t border-white/[0.06] bg-slate-950"
+      className="relative border-t border-white/[0.06] bg-[var(--landing-bg)]"
       role="contentinfo"
     >
       <div className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link
               href="/"
@@ -90,6 +91,7 @@ export function FooterSection() {
             </p>
           </div>
 
+          {/* Link Columns */}
           {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
             <div key={heading}>
               <h3 className="text-sm font-semibold text-white">{heading}</h3>
@@ -109,6 +111,7 @@ export function FooterSection() {
           ))}
         </div>
 
+        {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] pt-8 md:flex-row">
           <p className="text-xs text-[var(--landing-text-muted)]">
             &copy; {new Date().getFullYear()} Convex-Flow. All rights reserved.

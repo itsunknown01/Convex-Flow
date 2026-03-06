@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import gsap from "gsap";
-import { useGsapContext } from "@/components/common/gsap-provider";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGsapContext } from "@/components/gsap-provider";
 
 const NAV_LINKS = [
   { label: "Features", href: "#features" },
@@ -11,7 +12,7 @@ const NAV_LINKS = [
   { label: "Trust", href: "#trust" },
 ] as const;
 
-export function LandingHeader() {
+export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
   const { isReady, prefersReducedMotion } = useGsapContext();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -20,6 +21,7 @@ export function LandingHeader() {
     if (!isReady || prefersReducedMotion || !navRef.current) return;
 
     const ctx = gsap.context(() => {
+      // Navbar becomes more opaque on scroll
       gsap.fromTo(
         navRef.current,
         { backdropFilter: "blur(8px)", backgroundColor: "rgba(5,10,20,0.4)" },
@@ -51,10 +53,12 @@ export function LandingHeader() {
       aria-label="Main navigation"
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+        {/* Logo */}
         <Link
           href="/"
           className="flex items-center gap-2 text-lg font-bold tracking-tight text-white"
         >
+          {/* Geometric logo mark */}
           <svg
             width="28"
             height="28"
@@ -112,6 +116,7 @@ export function LandingHeader() {
           </span>
         </Link>
 
+        {/* Desktop Nav */}
         <div className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
             <a
@@ -122,14 +127,15 @@ export function LandingHeader() {
               {link.label}
             </a>
           ))}
-          <Link
-            href="/login?view=signup"
+          <a
+            href="#cta"
             className="cta-glow rounded-lg bg-[var(--landing-accent-blue)] px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-[var(--landing-accent-blue)]/90"
           >
             Get Started
-          </Link>
+          </a>
         </div>
 
+        {/* Mobile Hamburger */}
         <button
           type="button"
           className="flex items-center justify-center rounded-md p-2 text-white md:hidden"
@@ -152,17 +158,20 @@ export function LandingHeader() {
                 strokeLinecap="round"
               />
             ) : (
-              <path
-                d="M4 7h16M4 12h16M4 17h16"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <>
+                <path
+                  d="M4 7h16M4 12h16M4 17h16"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </>
             )}
           </svg>
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {mobileOpen && (
         <div className="border-t border-white/[0.06] bg-[var(--landing-bg)]/95 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1 px-6 py-4">
@@ -176,13 +185,13 @@ export function LandingHeader() {
                 {link.label}
               </a>
             ))}
-            <Link
-              href="/login?view=signup"
+            <a
+              href="#cta"
               onClick={() => setMobileOpen(false)}
               className="mt-2 rounded-lg bg-[var(--landing-accent-blue)] px-4 py-2 text-center text-sm font-semibold text-white"
             >
               Get Started
-            </Link>
+            </a>
           </div>
         </div>
       )}

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { LandingHeader } from "@/components/landing/header";
+import { FooterSection } from "@/components/landing/footer-section";
+import { GsapProvider } from "@/components/common/gsap-provider";
 
 export const metadata: Metadata = {
   title: "Convex-Flow | Enterprise AI Workflow Automation",
@@ -16,9 +18,10 @@ export default function LandingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <GsapProvider>
       <LandingHeader />
       {children}
-    </>
+      <FooterSection />
+    </GsapProvider>
   );
 }

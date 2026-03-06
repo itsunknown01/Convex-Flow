@@ -1,6 +1,11 @@
 "use client";
 
-import { ScrollReveal } from "./scroll-animations";
+import ScrollReveal from "./ScrollReveal";
+
+/* ═══════════════════════════════════════════════════════════════
+   "THE SOLUTION" — Convex-Flow value proposition
+   Clean geometric flow, key differentiators
+   ═══════════════════════════════════════════════════════════════ */
 
 const DIFFERENTIATORS = [
   {
@@ -124,13 +129,14 @@ const DIFFERENTIATORS = [
   },
 ] as const;
 
-export function SolutionUnfold() {
+export default function SolutionSection() {
   return (
     <section
       id="features"
       className="landing-section relative"
       aria-labelledby="solution-heading"
     >
+      {/* Subtle background glow */}
       <div
         className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         aria-hidden="true"
@@ -139,6 +145,7 @@ export function SolutionUnfold() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-6">
+        {/* Header */}
         <ScrollReveal className="mx-auto max-w-2xl text-center">
           <span className="landing-label">The Solution</span>
           <h2
@@ -157,6 +164,7 @@ export function SolutionUnfold() {
           </p>
         </ScrollReveal>
 
+        {/* Feature Cards */}
         <div className="mt-16 grid gap-6 sm:grid-cols-2">
           {DIFFERENTIATORS.map((item, i) => (
             <ScrollReveal
@@ -166,18 +174,27 @@ export function SolutionUnfold() {
               threshold={0.15}
             >
               <div className="group relative h-full rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 transition-all duration-500 hover:border-white/[0.1] hover:bg-white/[0.04]">
+                {/* Icon */}
                 <div
                   className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-white/[0.08] transition-colors duration-300 group-hover:border-white/[0.12]"
                   style={{ color: item.color }}
                 >
                   {item.icon}
                 </div>
+
                 <h3 className="text-lg font-semibold text-white">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-[var(--landing-text-secondary)]">
                   {item.description}
                 </p>
+
+                {/* Corner glow on hover */}
+                <div
+                  className="pointer-events-none absolute -right-4 -top-4 h-24 w-24 rounded-full opacity-0 blur-[40px] transition-opacity duration-500 group-hover:opacity-100"
+                  style={{ backgroundColor: item.color, opacity: 0 }}
+                  aria-hidden="true"
+                />
               </div>
             </ScrollReveal>
           ))}

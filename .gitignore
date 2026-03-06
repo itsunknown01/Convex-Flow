@@ -27,7 +27,7 @@ out/
 build
 dist
 context/
-.agent/
+.agents/
 generated-client/
 
 # Debug

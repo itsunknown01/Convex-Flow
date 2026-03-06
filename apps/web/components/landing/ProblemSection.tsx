@@ -2,8 +2,14 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { useGsapContext } from "@/components/common/gsap-provider";
-import { ScrollReveal } from "./scroll-animations";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGsapContext } from "@/components/gsap-provider";
+import ScrollReveal from "./ScrollReveal";
+
+/* ═══════════════════════════════════════════════════════════════
+   "THE PROBLEM" — Visualize chaos of uncontrolled AI automation
+   Scroll transforms tangled chaos → signal of need for control
+   ═══════════════════════════════════════════════════════════════ */
 
 const PAIN_POINTS = [
   {
@@ -70,7 +76,7 @@ const PAIN_POINTS = [
   },
 ] as const;
 
-export function ProblemNarrative() {
+export default function ProblemSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const chaosRef = useRef<SVGSVGElement>(null);
   const { isReady, prefersReducedMotion } = useGsapContext();
@@ -86,6 +92,8 @@ export function ProblemNarrative() {
 
     const ctx = gsap.context(() => {
       const lines = chaosRef.current!.querySelectorAll(".chaos-line");
+
+      // Animate chaos lines opacity and movement
       gsap.fromTo(
         lines,
         { strokeDashoffset: 300, opacity: 0 },
@@ -125,6 +133,7 @@ export function ProblemNarrative() {
               className="h-auto w-full max-w-md"
               aria-hidden="true"
             >
+              {/* Tangled/chaotic lines representing uncontrolled automation */}
               {[
                 "M50,200 C100,50 200,350 300,100 S450,300 480,200",
                 "M30,150 C120,300 180,50 280,250 S400,80 470,180",
@@ -152,6 +161,8 @@ export function ProblemNarrative() {
                   fill="none"
                 />
               ))}
+
+              {/* Warning nodes */}
               <circle
                 cx="250"
                 cy="200"
@@ -184,6 +195,8 @@ export function ProblemNarrative() {
                 ?
               </text>
             </svg>
+
+            {/* Glow behind chaos */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="h-48 w-48 rounded-full bg-red-500/[0.08] blur-[60px]" />
             </div>
@@ -208,6 +221,7 @@ export function ProblemNarrative() {
               </p>
             </ScrollReveal>
 
+            {/* Pain Point Stats */}
             <div className="mt-8 space-y-4">
               {PAIN_POINTS.map((point, i) => (
                 <ScrollReveal key={i} direction="right" delay={0.15 + i * 0.1}>
