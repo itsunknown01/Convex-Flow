@@ -1,4 +1,5 @@
 import { db } from "@workspace/database";
+import type { WorkflowDefinition, WorkflowExecution } from "@workspace/database";
 import { CacheService } from "../../infra/cache/cache-service.js"; // Note: will fix imports later
 import { getWorkflowQueue } from "../../infra/queue/queue-factory.js";
 
@@ -14,7 +15,7 @@ export class WorkflowService {
     return WorkflowService.instance;
   }
 
-  async createDefinition(tenantId: string, data: any) {
+  async createDefinition(tenantId: string, data: any): Promise<WorkflowDefinition> {
     return db.workflowDefinition.create({
       data: {
         tenantId,
@@ -28,7 +29,7 @@ export class WorkflowService {
     tenantId: string,
     workflowDefinitionId: string,
     input: any,
-  ) {
+  ): Promise<WorkflowExecution> {
     // 1. Verify availability and ownership (using Cache)
     const workflowDef = await CacheService.getInstance().wrap(
       `wf_def:${workflowDefinitionId}`,
@@ -65,13 +66,14 @@ export class WorkflowService {
     return execution;
   }
 
-  async getExecution(tenantId: string, id: string) {
+  async getExecution(tenantId: string, id: string): Promise<WorkflowExecution> {
     const execution = await db.workflowExecution.findUnique({ where: { id } });
     if (!execution || execution.tenantId !== tenantId)
       throw new Error("Execution not found");
     return execution;
   }
-  async updateExecutionStatus(tenantId: string, id: string, status: any) {
+
+  async updateExecutionStatus(tenantId: string, id: string, status: any): Promise<WorkflowExecution> {
     const execution = await this.getExecution(tenantId, id);
 
     // Basic state machine validation
@@ -98,7 +100,8 @@ export class WorkflowService {
       data: { status },
     });
   }
-  async getDefinition(tenantId: string, id: string) {
+
+  async getDefinition(tenantId: string, id: string): Promise<WorkflowDefinition> {
     const definition = await db.workflowDefinition.findUnique({
       where: { id },
     });
@@ -108,14 +111,14 @@ export class WorkflowService {
     return definition;
   }
 
-  async listDefinitions(tenantId: string) {
+  async listDefinitions(tenantId: string): Promise<WorkflowDefinition[]> {
     return db.workflowDefinition.findMany({
       where: { tenantId },
       orderBy: { createdAt: "desc" },
     });
   }
 
-  async listExecutions(tenantId: string) {
+  async listExecutions(tenantId: string): Promise<(WorkflowExecution & { workflowDefinition: WorkflowDefinition })[]> {
     return db.workflowExecution.findMany({
       where: { tenantId },
       include: {
