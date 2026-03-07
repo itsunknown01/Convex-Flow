@@ -39,46 +39,47 @@ export default function Footer() {
                 fill="none"
                 aria-hidden="true"
               >
-                <rect
-                  x="2"
-                  y="2"
-                  width="10"
-                  height="10"
-                  rx="2"
+                <path
+                  d="M 14 0 L 26.12 7 L 26.12 21 L 14 28 L 1.88 21 L 1.88 7 Z"
                   fill="url(#fg)"
-                  opacity="0.9"
                 />
-                <rect
-                  x="16"
-                  y="2"
-                  width="10"
-                  height="10"
-                  rx="2"
-                  fill="url(#fg)"
-                  opacity="0.5"
+                <path
+                  d="M 14 5.5 L 21.36 9.75 L 21.36 18.25 L 14 22.5 L 6.64 18.25 L 6.64 9.75 Z"
+                  fill="#0f172a"
                 />
-                <rect
-                  x="2"
-                  y="16"
-                  width="10"
-                  height="10"
-                  rx="2"
-                  fill="url(#fg)"
-                  opacity="0.5"
+                <circle cx="14" cy="14" r="2.5" fill="#f8fafc" />
+                <circle cx="14" cy="5.5" r="1.5" fill="#f8fafc" />
+                <circle cx="6.64" cy="18.25" r="1.5" fill="#f8fafc" />
+                <circle cx="21.36" cy="18.25" r="1.5" fill="#f8fafc" />
+                <path
+                  d="M 14 11.5 L 14 7"
+                  stroke="#f8fafc"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
                 />
-                <rect
-                  x="16"
-                  y="16"
-                  width="10"
-                  height="10"
-                  rx="2"
-                  fill="url(#fg)"
-                  opacity="0.7"
+                <path
+                  d="M 12 15 L 8 17.5"
+                  stroke="#f8fafc"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M 16 15 L 20 17.5"
+                  stroke="#f8fafc"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
                 />
                 <defs>
-                  <linearGradient id="fg" x1="0" y1="0" x2="28" y2="28">
-                    <stop stopColor="#3b82f6" />
-                    <stop offset="1" stopColor="#8b5cf6" />
+                  <linearGradient
+                    id="fg"
+                    x1="0"
+                    y1="28"
+                    x2="28"
+                    y2="0"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stopColor="#2563eb" />
+                    <stop offset="1" stopColor="#9333ea" />
                   </linearGradient>
                 </defs>
               </svg>

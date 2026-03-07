@@ -1,0 +1,1 @@
+Enterprise AI workflow automation with full explainability. Built with Next.js, LangChain, and Turborepo.

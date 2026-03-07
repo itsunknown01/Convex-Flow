@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Geometric gradient for a professional, enterprise look -->
+    <linearGradient id="primaryGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb" /> <!-- Blue 600 -->
+      <stop offset="100%" stop-color="#9333ea" /> <!-- Purple 600 -->
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" fill="transparent" />
+  
+  <g transform="translate(256, 256)">
+    <!-- Main hexagon background (representing Convex) -->
+    <path d="M 0 -170 L 147.2 -85 L 147.2 85 L 0 170 L -147.2 85 L -147.2 -85 Z" 
+          fill="url(#primaryGrad)" />
+          
+    <!-- Inner intersection points for "Flow" -->
+    <path d="M 0 -90 L 78 -45 L 78 45 L 0 90 L -78 45 L -78 -45 Z" 
+          fill="#0f172a" />
+          
+    <circle cx="0" cy="0" r="30" fill="#f8fafc" />
+    <circle cx="0" cy="-90" r="16" fill="#f8fafc" />
+    <circle cx="-78" cy="45" r="16" fill="#f8fafc" />
+    <circle cx="78" cy="45" r="16" fill="#f8fafc" />
+
+    <!-- Connecting lines -->
+    <path d="M 0 -15 L 0 -70" stroke="#f8fafc" stroke-width="12" stroke-linecap="round" />
+    <path d="M -12 8 L -60 35" stroke="#f8fafc" stroke-width="12" stroke-linecap="round" />
+    <path d="M 12 8 L 60 35" stroke="#f8fafc" stroke-width="12" stroke-linecap="round" />
+  </g>
+</svg>
